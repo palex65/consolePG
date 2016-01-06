@@ -1,0 +1,124 @@
+@startuml
+
+hide circle
+skinparam classAttributeIconSize 0
+hide empty methods
+hide empty fields
+
+package java.awt {
+  class JFrame
+  class JComponent
+  package event {
+    interface KeyListener
+    interface MouseListener
+    interface MouseMotionListener
+  }
+}
+
+package isel.leic.pg {
+  class Console
+  class MouseEvent extends Location
+
+  package console {
+    class Frame
+    class TextBox
+    class CharAttr
+    class KeyManager
+    class MouseManager
+  }
+  package concurrent {
+    class CharRingBuffer
+    class PositiveIntSet
+    class RingBuffer
+  }
+}
+
+show Console circle
+class Console << (C,cyan) >>
+Console *-- "1" Frame : frame
+Console .> Location
+Console ..> MouseEvent
+
+class Frame extends JFrame {
+	- lin : int
+	- col : int
+	- echo : boolean
+	- cursorOn : boolean
+	- bColor : Color
+	- fColor : Color
+}
+Frame *- "1" TextBox :txt
+
+class TextBox {
+	- lines : int
+	- cols : int
+	+ paint(Graphics)
+	setChr(int l, int col, char)
+	setChr(int l, int col, char, Color, Color)
+	getChr(int l, int col) : char
+}
+JComponent <|--- TextBox
+TextBox *-- "*" CharAttr : grid
+
+class CharAttr {
+  - c : char
+  - background : Color
+  - foreground : Color
+  paint(Graphics, ...)
+  setChr(char) : boolean
+  setChr(char, Color, Color) : boolean
+  getChr() : char
+}
+
+class MouseManager {
+    ~removeListeners()
+    ~getEvent(long timeout) : MouseEvent
+    ~isEmpty() :boolean
+
+}
+Frame *-- "0..1" MouseManager :mouseMgr
+MouseListener <|.... MouseManager
+MouseMotionListener <|.... MouseManager
+
+class KeyManager implements KeyListener {
+    ~getChar(long timeout) : char
+    ~isPressed(int code) : boolean
+    ~anyPressed() : boolean
+    ~getAnyPressed(long timeout) : int
+}
+Frame *-- "1" KeyManager :keyMgr
+
+class CharRingBuffer {
+    - buffer char[]
+    - loseNewest : boolean;
+    - put : int
+    - get : int
+    + put(char c)
+    + get(long timeout) : char
+}
+
+class PositiveIntSet {
+    - elems : int[]
+    - size : int
+
+    + add(int value) : boolean
+    + remove(int value) : boolean
+    + isEmpty() : boolean
+    + contains(int value) : boolean
+    + getAny(int timeout) : int
+}
+
+class RingBuffer<T> {
+    - buffer T[]
+    - loseNewest : boolean;
+    - put : int
+    - get : int
+    + put(T e)
+    + get(long timeout) : T
+}
+
+MouseManager *- "1\nT=MouseEvent" RingBuffer : events
+KeyManager *- "1" CharRingBuffer : typedChars
+KeyManager *- "1" PositiveIntSet : pressedKeys
+
+@enduml
