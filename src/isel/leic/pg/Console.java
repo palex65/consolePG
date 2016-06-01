@@ -288,7 +288,7 @@ public abstract class Console {
         //while( getChar()!=NO_CHAR ) ;
   		if (timeout<0) timeout = 0;
 		if (timeout>0) timeout += System.currentTimeMillis();
-		char c = 0;
+		char c;
 		while( (c=getChar())==NO_CHAR && (timeout<=0 || System.currentTimeMillis() < timeout ))
 			;
 		return c;
@@ -521,11 +521,13 @@ public abstract class Console {
 	}
 
     private static Clip getClip(String wavFile) {
-        String soundName = "sound\\"+wavFile+".wav";
+        String soundName = "sound\\"+wavFile;
+		if (soundName.indexOf('.')==-1)
+			soundName += ".wav";
         InputStream sound = null;
         Clip clip = null;
         try {
-            sound = new FileInputStream(soundName);
+            sound = new BufferedInputStream(new FileInputStream(soundName));
         } catch (FileNotFoundException ex) {
             sound = ClassLoader.getSystemResourceAsStream(soundName);
             if (sound==null) {
