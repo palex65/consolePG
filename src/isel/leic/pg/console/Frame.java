@@ -9,11 +9,11 @@ import java.awt.*;
 
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
-    private static boolean limitCpuUsage = true;
+    private static final boolean LIMIT_CPU_USAGE = true;
 
 	private static final char CURSOR = '|';
     private static final int BLINK_TIME = 500;
-	private static int minTime = 50;
+	private static int minTime = 10;
 
 	private final int lines, cols;
 
@@ -26,8 +26,7 @@ public class Frame extends JFrame {
     private final KeyManager keyMgr;
     private MouseManager mouseMgr;
 
-    public static void setLimitTime(boolean limitCpuUsage, int minTime) {
-        Frame.limitCpuUsage = limitCpuUsage;
+    public static void setLimitTime(int minTime) {
         Frame.minTime = minTime;
     }
 
@@ -92,7 +91,7 @@ public class Frame extends JFrame {
     public int getKeyPressed() {
         int key = 0;
         try {
-            if (limitCpuUsage) {
+            if (LIMIT_CPU_USAGE) {
                 long tm = System.currentTimeMillis();
                 key = keyMgr.getAnyPressed(minTime);
                 sleepRemainder(tm, minTime);
@@ -173,7 +172,7 @@ public class Frame extends JFrame {
         if (mouseMgr==null) return null;
         MouseEvent ev = null;
         try {
-            if (limitCpuUsage) {
+            if (LIMIT_CPU_USAGE) {
                 long tm = System.currentTimeMillis();
                 ev = mouseMgr.getEvent(minTime);
                 sleepRemainder(tm, minTime);
