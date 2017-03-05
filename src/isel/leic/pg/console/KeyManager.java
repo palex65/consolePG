@@ -27,7 +27,6 @@ public class KeyManager implements KeyListener {
         return pressedKeys.getAny(timeout);
     }
 
-
     @Override
     public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();

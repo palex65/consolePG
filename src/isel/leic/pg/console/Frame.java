@@ -9,11 +9,11 @@ import java.awt.*;
 
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
-    private static final boolean LIMIT_CPU_USAGE = true;
+    private static boolean limitCpuUsage = true;
 
 	private static final char CURSOR = '|';
     private static final int BLINK_TIME = 500;
-	private static final int MIN_TIME = 50;
+	private static int minTime = 50;
 
 	private final int lines, cols;
 
@@ -25,6 +25,11 @@ public class Frame extends JFrame {
     private final TextBox txt;
     private final KeyManager keyMgr;
     private MouseManager mouseMgr;
+
+    public static void setLimitTime(boolean limitCpuUsage, int minTime) {
+        Frame.limitCpuUsage = limitCpuUsage;
+        Frame.minTime = minTime;
+    }
 
     public Frame(String title, int lines, int cols, int fontSize, float heightFactor, float widthFactor) {
 		super(title);
@@ -78,7 +83,7 @@ public class Frame extends JFrame {
 
     public char getChar() throws InterruptedException {
         blinkCursor();
-        return keyMgr.getChar(MIN_TIME);
+        return keyMgr.getChar(minTime);
     }
 
     public boolean keyPressed(int code) { return keyMgr.isPressed(code); }
@@ -87,10 +92,10 @@ public class Frame extends JFrame {
     public int getKeyPressed() {
         int key = 0;
         try {
-            if (LIMIT_CPU_USAGE) {
+            if (limitCpuUsage) {
                 long tm = System.currentTimeMillis();
-                key = keyMgr.getAnyPressed(MIN_TIME);
-                sleepRemainder(tm,MIN_TIME);
+                key = keyMgr.getAnyPressed(minTime);
+                sleepRemainder(tm, minTime);
             } else
                 key = keyMgr.getAnyPressed(0);
         } catch (InterruptedException ignored) { }
@@ -168,10 +173,10 @@ public class Frame extends JFrame {
         if (mouseMgr==null) return null;
         MouseEvent ev = null;
         try {
-            if (LIMIT_CPU_USAGE) {
+            if (limitCpuUsage) {
                 long tm = System.currentTimeMillis();
-                ev = mouseMgr.getEvent(MIN_TIME);
-                sleepRemainder(tm,MIN_TIME);
+                ev = mouseMgr.getEvent(minTime);
+                sleepRemainder(tm, minTime);
             } else
                 ev = mouseMgr.getEvent(0);
         } catch (InterruptedException ignored) { }
