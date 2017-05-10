@@ -355,7 +355,7 @@ public abstract class Console {
     }
 
     /**
-     * Waits while any key keep pressed and clear all char typed.
+     * Waits while any key keep pressed and clear all char typed and mouse events.
      * @see #waitKeyReleased(int)
      * @see #getChar()
      */
@@ -364,6 +364,8 @@ public abstract class Console {
             sleep(50);
         while ( getChar()!=NO_CHAR )
             ;
+        while ( getMouseEvent() != null )
+			;
     }
 
 	/**

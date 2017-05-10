@@ -6,6 +6,8 @@ import isel.leic.pg.concurrent.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 @SuppressWarnings("serial")
 public class Frame extends JFrame {
@@ -38,6 +40,13 @@ public class Frame extends JFrame {
         txt.setPreferredSize(new Dimension((int) (cols * fontSize * widthFactor), (int) (lines * fontSize * heightFactor)));
         getContentPane().add( txt );
         addKeyListener(keyMgr = new KeyManager(this));
+        addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                keyMgr.clearPressedKeys();
+                if (mouseMgr!=null) mouseMgr.clearEvents();
+            }
+        });
     	setLocationByPlatform(true);
 		setResizable(false);
     	pack();

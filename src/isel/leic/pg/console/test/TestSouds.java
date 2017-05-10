@@ -15,7 +15,7 @@ public class TestSouds {
     private static void pop() {
         Console.color(Console.WHITE,Console.RED);
         Console.println("pop");
-        Console.playSound("monkey.au");
+        Console.playSound("pop");
         Console.sleep(2000);
     }
 }

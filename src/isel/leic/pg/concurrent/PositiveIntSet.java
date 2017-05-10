@@ -105,4 +105,8 @@ public class PositiveIntSet {
         }
         return elems[size -1];
     }
+
+    public synchronized void clear() {
+        size = 0;
+    }
 }

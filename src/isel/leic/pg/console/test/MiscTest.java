@@ -12,7 +12,7 @@ public class MiscTest {
      * Program for demonstration and test of Console.
      * @param args not used
      */
-    public static void main1(String[] args) {
+    public static void main(String[] args) {
         Console.open(20, 40);
         Console.exit(true);
         Console.print("Hello Console\n");
@@ -54,7 +54,7 @@ public class MiscTest {
         Console.close();
     }
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         Console.open("Demo Stars",20,40);
         Random rnd = new Random();
         //Console.startMusic("stars");

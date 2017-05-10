@@ -42,4 +42,6 @@ public class RingBuffer<T> {
     }
 
     public boolean isEmpty() { return put == get; }
+
+    public void clear() { put = get = 0; }
 }

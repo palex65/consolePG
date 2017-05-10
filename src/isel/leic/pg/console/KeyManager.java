@@ -48,4 +48,8 @@ public class KeyManager implements KeyListener {
     private boolean isPrintable(char c) {
         return Character.isDefined(c);
     }
+
+    public void clearPressedKeys() {
+        pressedKeys.clear();
+    }
 }

@@ -28,6 +28,7 @@ public class MouseManager implements MouseListener, MouseMotionListener {
         return events.get(timeout);
     }
 
+    void clearEvents() { events.clear(); }
     boolean isEmpty() { return events.isEmpty(); }
 
     private int yToLine(int y) { return (y - frame.getInsets().top) / frame.getCellHeight();	}

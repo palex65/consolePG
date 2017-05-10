@@ -12,11 +12,11 @@ public class MouseTest {
         Console.exit(true);
         Console.cursor(28,0);
         Console.color(Console.YELLOW,Console.BLACK);
-        Console.print("Closes after 5 seconds without any key press or click");
+        Console.print("Closes after 20 seconds without any key press or click");
         mouseClicks(true, false);
         int counter=0,i=0;
         for(;;) {
-            int key = Console.waitKeyPressed(5000);
+            int key = Console.waitKeyPressed(20000);
             if (key==Console.NO_KEY) break;
             if (key==Console.MOUSE_EVENT) {
                 MouseEvent ev = Console.getMouseEvent();
